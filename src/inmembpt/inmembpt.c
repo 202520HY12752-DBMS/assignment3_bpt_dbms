@@ -1,5 +1,5 @@
 /*
- *  bpt.c  
+ *  bpt.c
  */
 #define Version "1.16.1"
 /*
@@ -12,30 +12,30 @@
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
  *
- *  1. Redistributions of source code must retain the above copyright notice, 
+ *  1. Redistributions of source code must retain the above copyright notice,
  *  this list of conditions and the following disclaimer.
  *
- *  2. Redistributions in binary form must reproduce the above copyright notice, 
- *  this list of conditions and the following disclaimer in the documentation 
+ *  2. Redistributions in binary form must reproduce the above copyright notice,
+ *  this list of conditions and the following disclaimer in the documentation
  *  and/or other materials provided with the distribution.
- 
+
  *  3. The name of the copyright holder may not be used to endorse
  *  or promote products derived from this software without specific
  *  prior written permission.
- 
+
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE 
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- 
- *  Author:  Amittai Aviram 
+
+ *  Author:  Amittai Aviram
  *    http://www.amittai.com
  *    amittai.aviram@gmail.com or afa13@columbia.edu
  *  Original Date:  26 June 2010
@@ -44,7 +44,7 @@
  *  This implementation demonstrates the B+ tree data structure
  *  for educational purposes, includin insertion, deletion, search, and display
  *  of the search path, the leaves, or the whole tree.
- *  
+ *
  *  Must be compiled with a C99-compliant C compiler such as the latest GCC.
  *
  *  Usage:  bpt [order]
@@ -173,10 +173,10 @@ int height(node * const root);
 int path_to_root(node * const root, node * child);
 void print_leaves(node * const root);
 void print_tree(node * const root);
-void find_and_print(node * const root, int key, bool verbose); 
-void find_and_print_range(node * const root, int range1, int range2, bool verbose); 
+void find_and_print(node * const root, int key, bool verbose);
+void find_and_print_range(node * const root, int range1, int range2, bool verbose);
 int find_range(node * const root, int key_start, int key_end, bool verbose,
-		int returned_keys[], void * returned_pointers[]); 
+		int returned_keys[], void * returned_pointers[]);
 node * find_leaf(node * const root, int key, bool verbose);
 record * find(node * root, int key, bool verbose, node ** leaf_out);
 int cut(int length);
@@ -190,7 +190,7 @@ int get_left_index(node * parent, node * left);
 node * insert_into_leaf(node * leaf, int key, record * pointer);
 node * insert_into_leaf_after_splitting(node * root, node * leaf, int key,
                                         record * pointer);
-node * insert_into_node(node * root, node * parent, 
+node * insert_into_node(node * root, node * parent,
 		int left_index, int key, node * right);
 node * insert_into_node_after_splitting(node * root, node * parent,
                                         int left_index,
@@ -219,7 +219,7 @@ node * delete(node * root, int key);
 
 // OUTPUT AND UTILITIES
 
-/* Copyright and license notice to user at startup. 
+/* Copyright and license notice to user at startup.
  */
 void license_notice(void) {
 	printf("bpt version %s -- Copyright (c) 2018  Amittai Aviram "
@@ -371,7 +371,7 @@ int path_to_root(node * const root, node * child) {
 
 
 /* Prints the B+ tree in the command
- * line in level (rank) order, with the 
+ * line in level (rank) order, with the
  * keys in each node and the '|' symbol
  * to separate nodes.
  * With the verbose_output flag set.
@@ -401,7 +401,7 @@ void print_tree(node * const root) {
 				printf("\n");
 			}
 		}
-		if (verbose_output) 
+		if (verbose_output)
 			printf("(%p)", n);
 		for (i = 0; i < n->num_keys; i++) {
 			if (verbose_output)
@@ -412,7 +412,7 @@ void print_tree(node * const root) {
 			for (i = 0; i <= n->num_keys; i++)
 				enqueue(n->pointers[i]);
 		if (verbose_output) {
-			if (n->is_leaf) 
+			if (n->is_leaf)
 				printf("%p ", n->pointers[order - 1]);
 			else
 				printf("%p ", n->pointers[n->num_keys]);
@@ -427,11 +427,10 @@ void print_tree(node * const root) {
  * appropriate message to stdout.
  */
 void find_and_print(node * const root, int key, bool verbose) {
-    node * leaf = NULL;
 	record * r = find(root, key, verbose, NULL);
 	if (r == NULL)
 		printf("Record not found under key %d.\n", key);
-	else 
+	else
 		printf("Record at %p -- key %d, value %d.\n",
 				r, key, r->value);
 }
@@ -494,7 +493,7 @@ int find_range(node * const root, int key_start, int key_end, bool verbose,
  */
 node * find_leaf(node * const root, int key, bool verbose) {
 	if (root == NULL) {
-		if (verbose) 
+		if (verbose)
 			printf("Empty tree.\n");
 		return root;
 	}
@@ -545,7 +544,7 @@ record * find(node * root, int key, bool verbose, node ** leaf_out) {
     /* If root != NULL, leaf must have a value, even
      * if it does not contain the desired key.
      * (The leaf holds the range of keys that would
-     * include the desired key.) 
+     * include the desired key.)
      */
 
 	for (i = 0; i < leaf->num_keys; i++)
@@ -626,13 +625,13 @@ node * make_leaf(void) {
 
 
 /* Helper function used in insert_into_parent
- * to find the index of the parent's pointer to 
+ * to find the index of the parent's pointer to
  * the node to the left of the key to be inserted.
  */
 int get_left_index(node * parent, node * left) {
 
 	int left_index = 0;
-	while (left_index <= parent->num_keys && 
+	while (left_index <= parent->num_keys &&
 			parent->pointers[left_index] != left)
 		left_index++;
 	return left_index;
@@ -738,7 +737,7 @@ node * insert_into_leaf_after_splitting(node * root, node * leaf, int key, recor
  * into a node into which these can fit
  * without violating the B+ tree properties.
  */
-node * insert_into_node(node * root, node * n, 
+node * insert_into_node(node * root, node * n,
 		int left_index, int key, node * right) {
 	int i;
 
@@ -757,7 +756,7 @@ node * insert_into_node(node * root, node * n,
  * into a node, causing the node's size to exceed
  * the order, and causing the node to split into two.
  */
-node * insert_into_node_after_splitting(node * root, node * old_node, int left_index, 
+node * insert_into_node_after_splitting(node * root, node * old_node, int left_index,
 		int key, node * right) {
 
 	int i, j, split, k_prime;
@@ -768,8 +767,8 @@ node * insert_into_node_after_splitting(node * root, node * old_node, int left_i
 	/* First create a temporary set of keys and pointers
 	 * to hold everything in order, including
 	 * the new key and pointer, inserted in their
-	 * correct places. 
-	 * Then create a new node and copy half of the 
+	 * correct places.
+	 * Then create a new node and copy half of the
 	 * keys and pointers to the old node and
 	 * the other half to the new.
 	 */
@@ -801,7 +800,7 @@ node * insert_into_node_after_splitting(node * root, node * old_node, int left_i
 	/* Create the new node and copy
 	 * half the keys and pointers to the
 	 * old and half to the new.
-	 */  
+	 */
 	split = cut(order);
 	new_node = make_node();
 	old_node->num_keys = 0;
@@ -852,23 +851,23 @@ node * insert_into_parent(node * root, node * left, int key, node * right) {
 		return insert_into_new_root(left, key, right);
 
 	/* Case: leaf or node. (Remainder of
-	 * function body.)  
+	 * function body.)
 	 */
 
-	/* Find the parent's pointer to the left 
+	/* Find the parent's pointer to the left
 	 * node.
 	 */
 
 	left_index = get_left_index(parent, left);
 
 
-	/* Simple case: the new key fits into the node. 
+	/* Simple case: the new key fits into the node.
 	 */
 
 	if (parent->num_keys < order - 1)
 		return insert_into_node(root, parent, left_index, key, right);
 
-	/* Harder case:  split a node in order 
+	/* Harder case:  split a node in order
 	 * to preserve the B+ tree properties.
 	 */
 
@@ -947,7 +946,7 @@ node * insert(node * root, int key, int value) {
 	 * Start a new tree.
 	 */
 
-	if (root == NULL) 
+	if (root == NULL)
 		return start_new_tree(key, record_pointer);
 
 
@@ -989,7 +988,7 @@ int get_neighbor_index(node * n) {
 
 	/* Return the index of the key to the left
 	 * of the pointer in the parent pointing
-	 * to n.  
+	 * to n.
 	 * If n is the leftmost child, this means
 	 * return -1.
 	 */
@@ -1053,10 +1052,10 @@ node * adjust_root(node * root) {
 	if (root->num_keys > 0)
 		return root;
 
-	/* Case: empty root. 
+	/* Case: empty root.
 	 */
 
-	// If it has a child, promote 
+	// If it has a child, promote
 	// the first (only) child
 	// as the new root.
 
@@ -1164,7 +1163,7 @@ node * coalesce_nodes(node * root, node * n, node * neighbor, int neighbor_index
 	root = delete_entry(root, n->parent, k_prime, n);
 	free(n->keys);
 	free(n->pointers);
-	free(n); 
+	free(n);
 	return root;
 }
 
@@ -1175,13 +1174,13 @@ node * coalesce_nodes(node * root, node * n, node * neighbor, int neighbor_index
  * small node's entries without exceeding the
  * maximum
  */
-node * redistribute_nodes(node * root, node * n, node * neighbor, int neighbor_index, 
-		int k_prime_index, int k_prime) {  
+node * redistribute_nodes(node * root, node * n, node * neighbor, int neighbor_index,
+		int k_prime_index, int k_prime) {
 
 	int i;
 	node * tmp;
 
-	/* Case: n has a neighbor to the left. 
+	/* Case: n has a neighbor to the left.
 	 * Pull the neighbor's last key-pointer pair over
 	 * from the neighbor's right end to n's left end.
 	 */
@@ -1215,7 +1214,7 @@ node * redistribute_nodes(node * root, node * n, node * neighbor, int neighbor_i
 	 * to n's rightmost position.
 	 */
 
-	else {  
+	else {
 		if (n->is_leaf) {
 			n->keys[n->num_keys] = neighbor->keys[0];
 			n->pointers[n->num_keys] = neighbor->pointers[0];
@@ -1264,10 +1263,10 @@ node * delete_entry(node * root, node * n, int key, void * pointer) {
 
 	n = remove_entry_from_node(n, key, pointer);
 
-	/* Case:  deletion from the root. 
+	/* Case:  deletion from the root.
 	 */
 
-	if (n == root) 
+	if (n == root)
 		return adjust_root(root);
 
 
@@ -1303,7 +1302,7 @@ node * delete_entry(node * root, node * n, int key, void * pointer) {
 	neighbor_index = get_neighbor_index(n);
 	k_prime_index = neighbor_index == -1 ? 0 : neighbor_index;
 	k_prime = n->parent->keys[k_prime_index];
-	neighbor = neighbor_index == -1 ? n->parent->pointers[1] : 
+	neighbor = neighbor_index == -1 ? n->parent->pointers[1] :
 		n->parent->pointers[neighbor_index];
 
 	capacity = n->is_leaf ? order : order - 1;
@@ -1384,7 +1383,7 @@ int main(int argc, char ** argv) {
 
     if (argc < 3) {
         license_notice();
-        usage_1();  
+        usage_1();
         usage_2();
     }
 

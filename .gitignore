@@ -280,5 +280,6 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,c,clion+all,intellij+all,windows
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
-dbbpt
-inmembpt
+bin/
+test_out/
+!gift_from_ta/
