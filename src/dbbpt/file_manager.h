@@ -65,7 +65,7 @@ void load_page(int fd, int64_t pgn, page* dest);
 void write_page(int fd, const page* src);
 page *alloc_page(int fd);
 page *alloc_page1(int fd, header_page* header);
-int free_page(int fd, int64_t pgn);
+void free_page(int fd, int64_t pgn);
 
 // Helper functions
 void exit_with_err_msg(const char* err_msg);

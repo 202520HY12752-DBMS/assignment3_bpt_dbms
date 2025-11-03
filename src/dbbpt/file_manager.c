@@ -4,27 +4,63 @@
 #include <stdlib.h>
 
 
+/**
+ * @brief Open a database file or create a new one if it doesn't exist.
+ * @param file_path[in] The path to the database file.
+ * @param leaf_order[in] The leaf order of the B+ tree.
+ * @param internal_order[in] The internal order of the B+ tree.
+ * @return The file descriptor of the database file. Return -1 if failed.
+ */
 int open_or_create_tree(const char *file_path, int leaf_order, int internal_order) {
 	// TODO: Implement here
 	return -1;
 }
 
+/**
+ * @brief Load the header page from the database file.
+ * @param fd[in] The file descriptor of the database file.
+ * @param dest[out] The destination to store the header page.
+ */
 void load_header_page(int fd, header_page* dest) {
 	// TODO: Implement here
 }
 
+/**
+ * @brief Write the header page to the database file.
+ * @param fd[in] The file descriptor of the database file.
+ * @param src[in] The header page to write.
+ */
 void write_header_page(int fd, const header_page* src) {
 	// TODO: Implement here
 }
 
+/**
+ * @brief Load a page from the database file.
+ * @param fd[in] The file descriptor of the database file.
+ * @param pgn[in] The page number of the page to load.
+ * @param dest[out] The destination to store the page.
+ */
 void load_page(int fd, int64_t pgn, page* dest) {
 	// TODO: Implement here
 }
 
+/**
+ * @brief Write a page to the database file.
+ * @param fd[in] The file descriptor of the database file.
+ * @param src[in] The page to write. Return NULL if failed.
+ */
 void write_page(int fd, const page* src) {
 	// TODO: Implement here
 }
 
+/**
+ * @brief Allocate a new page.
+ * @param fd[in] The file descriptor of the database file.
+ * @return The new page.
+ *
+ * If no free pages are left, this function doubles the free pages pool, and then allocates one.
+ * If memory allocation fails, then kill the process using the `exit_with_err_msg()` function.
+ */
 page *alloc_page(int fd) {
 	header_page header;
 	load_header_page(fd, &header);
@@ -32,16 +68,33 @@ page *alloc_page(int fd) {
 	return alloc_page1(fd, &header);
 }
 
+/**
+ * @brief Allocate a new page. This function uses the passed header_page pointer instead of calling load_header_page.
+ * @param fd[in] The file descriptor of the database file.
+ * @param header_page[in] The header page.
+ * @return The new page.
+ *
+ * If no free pages are left, this function doubles the free pages pool, and then allocates one.
+ * If memory allocation fails, then kill the process using the `exit_with_err_msg()` function.
+ */
 page *alloc_page1(int fd, header_page *header_page) {
 	// TODO: Implement here
 	return NULL;
 }
 
-int free_page(int fd, int64_t pgn) {
+/**
+ * @brief Free a page.
+ * @param fd[in] The file descriptor of the database file.
+ * @param pgn[in] The page number of the page to free.
+ */
+void free_page(int fd, int64_t pgn) {
 	// TODO: Implement here
-	return 0;
 }
 
+/**
+ * @brief Print an error message and exit the program.
+ * @param err_msg[in] The error message to print.
+ */
 void exit_with_err_msg(const char* err_msg) {
 	perror(err_msg);
 	exit(EXIT_FAILURE);
