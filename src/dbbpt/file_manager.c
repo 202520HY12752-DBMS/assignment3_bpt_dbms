@@ -10,6 +10,10 @@
  * @param leaf_order[in] The leaf order of the B+ tree.
  * @param internal_order[in] The internal order of the B+ tree.
  * @return The file descriptor of the database file. Return -1 if failed.
+ *
+ * Set the header page and free pages pool during tree creation. Plus, use -1
+ * to represent a NULL page number for fields such as the initial root page number
+ * in header page or next page number of the last free page.
  */
 int open_or_create_tree(const char *file_path, int leaf_order, int internal_order) {
 	// TODO: Implement here
