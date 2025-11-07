@@ -76,7 +76,7 @@ void db_delete(int fd, int64_t key);
 void db_destroy(int fd);
 
 // Helper functions for destroy API
-// TODO: define prototypes of helper functions if you need
+void destroy_pages(int fd, int64_t pgn);
 
 // Common utility helper functions
 // TODO: define prototypes of helper functions if you need
