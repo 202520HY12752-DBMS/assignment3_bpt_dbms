@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 
 /**
@@ -26,7 +27,21 @@ int open_or_create_tree(const char *file_path, int leaf_order, int internal_orde
  * @param dest[out] The destination to store the header page.
  */
 void load_header_page(int fd, header_page* dest) {
-	// TODO: Implement here
+	off_t cur_offset = 0;
+	if (pread(fd, &(dest->free_pgn), 8, cur_offset) == -1) exit_with_err_msg("Error on loading free page number at header page.");
+	cur_offset += 8;
+
+	if (pread(fd, &(dest->root_pgn), 8, cur_offset) == -1) exit_with_err_msg("Error on loading root page number at header page.");
+	cur_offset += 8;
+
+	if (pread(fd, &(dest->num_pages), 8, cur_offset) == -1) exit_with_err_msg("Error on loading number of pages at header page.");
+	cur_offset += 8;
+
+	if (pread(fd, &(dest->leaf_order), 4, cur_offset) == -1) exit_with_err_msg("Error on loading leaf order at header page.");
+	cur_offset += 4;
+
+	if (pread(fd, &(dest->internal_order), 4, cur_offset) == -1) exit_with_err_msg("Error on loading internal order at header page.");
+	cur_offset += 4;
 }
 
 /**
@@ -35,7 +50,21 @@ void load_header_page(int fd, header_page* dest) {
  * @param src[in] The header page to write.
  */
 void write_header_page(int fd, const header_page* src) {
-	// TODO: Implement here
+	off_t cur_offset = 0;
+	if (pwrite(fd, &(src->free_pgn), 8, cur_offset) < 8) exit_with_err_msg("Error on writing free page number at header page.");
+	cur_offset += 8;
+
+	if (pwrite(fd, &(src->root_pgn), 8, cur_offset) < 8) exit_with_err_msg("Error on writing root page number at header page.");
+	cur_offset += 8;
+
+	if (pwrite(fd, &(src->num_pages), 8, cur_offset) < 8) exit_with_err_msg("Error on writing number of pages at header page.");
+	cur_offset += 8;
+
+	if (pwrite(fd, &(src->leaf_order), 4, cur_offset) < 4) exit_with_err_msg("Error on writing leaf order at header page.");
+	cur_offset += 4;
+
+	if (pwrite(fd, &(src->internal_order), 4, cur_offset) < 4) exit_with_err_msg("Error on writing internal order at header page.");
+	cur_offset += 4;
 }
 
 /**
