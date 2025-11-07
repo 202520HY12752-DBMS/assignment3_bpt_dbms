@@ -56,16 +56,24 @@ void db_delete(int fd, int64_t key) {
 // TODO: define helper functions if you need
 
 // Destroy API
-/**
- * @brief Destroy the database file.
- * @param fd[in] The file descriptor of the database file.
- */
 void db_destroy(int fd) {
-	// TODO: Implement here
+	header_page header;
+	load_header_page(fd, &header);
+	destroy_pages(fd, header.root_pgn);
+	header.root_pgn = -1;
+	write_header_page(fd, &header);
 }
 
 // Helper functions for destroy API
-// TODO: define helper functions if you need
+void destroy_pages(int fd, int64_t pgn) {
+	if (pgn <= 0) return;
+	page cur_page;
+	load_page(fd, pgn, &cur_page);
+	if (!cur_page.is_leaf) {
+		for (int i = 0; i < cur_page.num_keys + 1; i++) destroy_pages(fd, cur_page.child_pgns[i]);
+	}
+	free_page(fd, pgn);
+}
 
 // Utility helper functions
 // TODO: define helper functions if you need
