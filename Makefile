@@ -16,7 +16,14 @@ DBBPT_BPT_SRC = $(DBBPT_SRCDIR)/dbbpt.c
 FILE_MANAGER_SRC = $(DBBPT_SRCDIR)/file_manager.c
 
 # Object files to be provided
-PROVIDED_OBJS = $(GIFTDIR)/dbbpt.o
+OS := $(shell uname -s)
+ifeq ($(OS),Linux)
+    PROVIDED_OBJS = $(GIFTDIR)/dbbpt_linux.o
+else ifeq ($(OS),Darwin)
+    PROVIDED_OBJS = $(GIFTDIR)/dbbpt_mac.o
+else
+    $(error Unsupported OS: $(OS). Please use Linux or macOS.)
+endif
 
 # Targets
 INMEMBPT_TARGET = $(BINDIR)/inmembpt
